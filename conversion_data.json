@@ -46,4 +46,12 @@
         "target_currency": "EUR",
         "converted_amount": 63.03
     }
+][
+    {
+        "date": "2024-06-01",
+        "amount": 199.0,
+        "base_currency": "USD",
+        "target_currency": "EUR",
+        "converted_amount": 183.11
+    }
 ]
