@@ -1,5 +1,6 @@
 import sys
 import re
+import datetime
 import requests
 import json
 from cachetools import TTLCache
@@ -49,6 +50,18 @@ def get_date_input():
 # Validate date
 def is_valid_date(date_str):
     """ Validate the date submited as command line argument when the program is started"""
+    
+    # Parse the date string
+    date_obj = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+
+    # Extract the date
+    date = date_obj.date()
+
+    # Get todays date
+    today = datetime.date.today()
+
+    if date > today:
+        raise ValueError('Date cant be in the future!')
 
     # Match days 0-31
     day_regex = re.compile(r'(?:0[1-9]|[12]\d|3[01])')
