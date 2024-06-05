@@ -29,8 +29,14 @@ def load_api_key():
 def get_date_input():
     """ Get the command line argument """
     try: 
-        # Get user command line argument
-        date_input = sys.argv[1]
+
+        try:
+            # Get user command line argument
+            date_input = sys.argv[1]
+        
+        except IndexError:
+            print("You must enter date as command line argument!")
+            sys.exit(1)
 
         if not is_valid_date(date_input):
             print("Please enter a valid date format!")
