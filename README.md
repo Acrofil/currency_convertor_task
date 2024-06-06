@@ -5,15 +5,18 @@ and allows the users to convert currencies with exchange rates from past dates.
 
 #### To run the programm
 
+##### Create virtual env and activate it
 ```bash
 python -m venv env
 source ./env/bin/activate
 ```
 
+##### Install dependancies from file
 ```bash
 pip install -r requirements.txt
 ```
 
+##### Execute the program with date as command line argument in the specified format
 ```bash
 ./CurrencyConversion.py <YYYY-MM-DD>
 ```
