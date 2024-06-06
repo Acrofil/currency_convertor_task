@@ -54,4 +54,12 @@
         "target_currency": "USD",
         "converted_amount": 278.42
     }
+][
+    {
+        "date": "2024-06-01",
+        "amount": 10.23,
+        "base_currency": "BGN",
+        "target_currency": "EUR",
+        "converted_amount": 5.24
+    }
 ]

@@ -1,7 +1,6 @@
 import pytest
 import datetime
 from unittest.mock import patch, MagicMock
-import json
 import cachetools
 
 class TestValidInput:
