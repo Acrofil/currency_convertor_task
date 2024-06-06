@@ -3,6 +3,21 @@
 The task is to create currency converting cli application that integrates with [Fast Forex](https://www.fastforex.io/)
 and allows the users to convert currencies with exchange rates from past dates.
 
+#### To run the programm
+
+```bash
+python -m venv env
+source ./env/bin/activate
+```
+
+```bash
+pip install -r requirements.txt
+```
+
+```bash
+./CurrencyConversion.py <YYYY-MM-DD>
+```
+
 ### Task summary and objectives
 
 - Use Python, Node.js or Kotlin.
@@ -15,3 +30,4 @@ and allows the users to convert currencies with exchange rates from past dates.
 - The application must be terminated by typing 'END' on any input.
 - The application must load the api_key for Fast Forex from a config.json file which must be ignored by the version control.
 - The executable must be named CurrencyConversion.
+

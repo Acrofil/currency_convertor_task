@@ -48,6 +48,7 @@ def get_date_input():
         return True
     except Exception as e:
         print(f'An error occured: {e}')
+        sys.exit()
 
 # Validate date
 def is_valid_date(date_str):
@@ -137,7 +138,7 @@ def get_all_currencies(api_key):
 
 # Cache each API call and use the cache
 @cachetools.cached(cache)
-def convert_currency(base, target, amount, api_key):
+def convert_currency(base, target, amount, api_key, date):
     """Function that makes API call to Fast Forex and converts from base to target the amount entered by the user
     Upon successfull conversion the conversion data is saved. """
 
@@ -149,19 +150,22 @@ def convert_currency(base, target, amount, api_key):
 
     if response.status_code == 200:
         result = response.json()['result']
-        date = sys.argv[1]
 
-        # Save conversion data
-        conversion_data = {
-            'date': date,
-            'amount': amount,
-            'base_currency': base,
-            'target_currency': target,
-            'converted_amount': result[target.upper()]
-        }
+        # Check if data exists in cache
+        cached_data = cache.get((base, target, amount, api_key))
+        if not cached_data:
+            # Save conversion data
+            conversion_data = {
+                'date': date,
+                'amount': amount,
+                'base_currency': base,
+                'target_currency': target,
+                'converted_amount': result[target.upper()]
+            }
 
-        # Save to json
-        save_conversion_data(conversion_history, conversion_data)
+            # Save to json
+            save_conversion_data(conversion_history, conversion_data)
+
     else:
         print(f"Error: {response.status_code}")
 
@@ -187,10 +191,12 @@ def get_amount():
         amount_input = input("Please enter amount to convert: ")
         quit_program(amount_input)
 
-        if not is_valid_amount(amount_input):
-            print("Please enter a valid amount!")
+        if is_valid_amount(amount_input):
+            break
         
-        return float(amount_input)
+        print("Please enter a valid amount!")
+        
+    return float(amount_input)
 
 # Get both base and target currency codes
 def get_currency_code(currencies, base_currency=False, target_currency=False):
@@ -212,12 +218,12 @@ def get_currency_code(currencies, base_currency=False, target_currency=False):
 def currency_data_input(api_key, currencies):
     """Main function that calls each needed user input by the program and shows the result. 
     It will run until end/END is entered"""
-
+    date = sys.argv[1]
     while True:
         amount_to_convert = get_amount()
         base_currency = get_currency_code(currencies, base_currency=True).upper()
         target_currency = get_currency_code(currencies, target_currency=True).upper()
-        convertion_result = convert_currency(base_currency, target_currency, float(amount_to_convert), api_key)
+        convertion_result = convert_currency(base_currency, target_currency, float(amount_to_convert), api_key, date)
 
         if convertion_result:
             print(f'{amount_to_convert} {base_currency} is {convertion_result[target_currency]} {target_currency}')
